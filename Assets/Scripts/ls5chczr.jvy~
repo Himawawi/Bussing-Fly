@@ -1,0 +1,50 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Player : MonoBehaviour
+{
+    [SerializeField]
+    float velocity;
+
+    [SerializeField]
+    private bool isAlive = true;
+
+    [SerializeField]
+    Rigidbody2D rb;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            /* Hab diese "Art" von Jump erstelt weil mit AddForce den Fall 
+            sich komisch gefühlt hat, wobei hier die Kraft des Jumps und des Falls mehr
+            ähnlich sind*/
+            rb.velocity = Vector2.up * velocity;
+
+        }
+    }
+
+
+    // Für physikalische Sachen immer in FixedUpdate
+    private void FixedUpdate()
+    {
+        
+    }
+
+    private void OnCollisionEnter2D(Collision2D _collision)
+    {
+        if(_collision.gameObject.tag == "Death")
+        {
+            isAlive = false;
+        }
+    }
+}
